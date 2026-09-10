@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import type { PropertyShapeWire } from '@_linked/core/shapes/nodeShapeWire';
 import style from './ImageValueEditor.module.css';
 // import CustomMultiSelect from './CustomMultiSelect.js';
 import { Shape } from '@_linked/core/shapes/Shape';
@@ -15,14 +16,14 @@ import {
 
 // interface ImageValuesEditor {
 //   shape?: Shape;
-//   property?: PropertyShape;
+//   property?: PropertyShapeWire;
 //   potentialValues?: any[];
 //   createInstanceFor?;
 // }
 
 interface ImageValueEditorProps {
-  of: Shape;
-  property: PropertyShape;
+  of?: Record<string, any>;
+  property?: PropertyShapeWire;
   shape: NodeShape;
   thumbnailWidth?: number;
   potentialValue?;

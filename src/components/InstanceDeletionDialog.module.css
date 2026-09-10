@@ -1,0 +1,59 @@
+.summary {
+  display: grid;
+  gap: 0.875rem;
+  min-width: min(32rem, 75vw);
+}
+
+.intro,
+.empty,
+.error,
+.changed {
+  margin: 0;
+}
+
+.targets {
+  display: grid;
+  gap: 0.75rem;
+  max-height: 48vh;
+  overflow: auto;
+}
+
+.target {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem;
+  border: 1px solid var(--surface-border, #d8dee8);
+  border-radius: 0.5rem;
+  background: var(--section-bg, #f8fafc);
+}
+
+.target strong,
+.target small {
+  overflow-wrap: anywhere;
+}
+
+.impactList {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0;
+  padding-left: 1.15rem;
+}
+
+.impactList li {
+  overflow-wrap: anywhere;
+}
+
+.warning {
+  color: var(--intent-warning-text, #8a4b08);
+}
+
+.error {
+  color: var(--color-error, #b42318);
+}
+
+.changed {
+  padding: 0.65rem;
+  border-radius: 0.4rem;
+  background: var(--intent-warning-bg, #fff4e5);
+  color: var(--intent-warning-text, #8a4b08);
+}

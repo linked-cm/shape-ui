@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
+import type { PropertyShapeWire } from '@_linked/core/shapes/nodeShapeWire';
 import {
   Root,
   Group,
@@ -12,12 +12,11 @@ import {
   ScrollUpButton,
   ScrollDownButton,
 } from '@_linked/primitives/components/Select';
-import { PropertyShape } from '@_linked/core/shapes/SHACL';
 
 export interface SelectEditorProps {
   onValueChange?: (e) => void;
-  of?: Shape;
-  property?: PropertyShape;
+  of?: Record<string, any>;
+  property?: PropertyShapeWire;
   /**
    *  Converts the value returned by the shape, to the input string for the select
    * @param shapePropertyValue
@@ -33,8 +32,8 @@ export interface SelectEditorProps {
 }
 
 // interface RootSelectProps extend  {
-//   of?: Shape;
-//   property?: PropertyShape;
+//   of?: Record<string, any>;
+//   property?: PropertyShapeWire;
 // }
 // const RootSelect = () => {
 //   return <Root></Root>;

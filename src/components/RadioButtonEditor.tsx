@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
+import type { PropertyShapeWire } from '@_linked/core/shapes/nodeShapeWire';
 import { Root, Item, RadioGroup } from '@_linked/primitives/components/RadioGroup';
-import { PropertyShape } from '@_linked/core/shapes/SHACL';
 import styles from './RadioButtonEditor.module.css';
 import { cl } from '@_linked/react/utils/ClassNames';
 
 export interface RadioButtonProps {
   onValueChange?: (newValue) => void;
-  of?: Shape;
-  property?: PropertyShape;
+  of?: Record<string, any>;
+  property?: PropertyShapeWire;
   children?: React.ReactNode;
   className?: string;
   /**

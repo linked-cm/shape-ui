@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
 import { Input, InputProps } from '@_linked/primitives/components/Input';
 
 export interface TextfieldProps extends InputProps {
   onChange?: (e) => void;
   value?: number | string;
   helperText?: string;
-  of: Shape;
+  of?: Record<string, any>;
   valueProperty?: string;
   property?;
 

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
 
 export interface DateEditorProps {
   onChange?: (e) => void;
-  of?: Shape;
+  of?: Record<string, any>;
   property?: string;
   /**
    *  Converts the value returned by the shape, to the date string for the date field

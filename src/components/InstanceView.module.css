@@ -1,0 +1,157 @@
+/*
+ * Lifted from ViewInstance.module.css alongside the InstanceView organism.
+ *
+ * Only the rules that render an instance's VALUES. The page keeps its layout, header,
+ * actions and skeleton rules — those belong to the page, not to the value list.
+ */
+
+.rows {
+  padding: var(--surface-gap) var(--space-2xl) var(--space-lg) var(--space-2xl);
+}
+
+.form {
+  display: flex;
+  min-height: 3.75rem;
+  align-items: center;
+  border-top: 1px solid var(--table-row-border);
+  justify-content: flex-start;
+  padding: var(--space-sm) 0;
+}
+
+.form:first-child {
+  border-top: none;
+}
+
+.form.stacked {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.form.stacked .label {
+  width: 100%;
+}
+
+.form.stacked .value {
+  width: 100%;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  min-width: 120px;
+  height: 100%;
+  justify-content: center;
+  padding-right: var(--space-md);
+  flex-shrink: 0;
+}
+
+.label label {
+  color: var(--instance-view-gray-500, var(--color-gray-500));
+  font-size: var(--typography-font-size);
+}
+
+.value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm-plus);
+  width: 70%;
+  max-height: 8.75rem;
+  overflow-y: auto;
+}
+
+.value p {
+  color: var(--text-primary);
+  font-size: var(--typography-font-size);
+  margin: 0;
+}
+
+.badgeContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) 0;
+  overflow-y: auto;
+}
+
+.expandedContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  overflow-y: auto;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-field);
+  background: var(--section-bg);
+}
+
+.imageValue {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.imageLabel {
+  color: var(--instance-view-gray-600, var(--color-gray-600));
+  font-size: var(--typography-small-size);
+  word-break: break-all;
+}
+
+[data-theme='dark'] .imageLabel {
+  color: var(--instance-view-gray-400, var(--color-gray-400));
+}
+
+[data-theme='dark'] .label label {
+  color: var(--instance-view-gray-400, var(--color-gray-400));
+}
+
+.rows {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+.form {
+    padding: var(--space-md) 0;
+  }
+
+.label {
+    width: 35%;
+    min-width: 100px;
+    padding-right: var(--space-sm);
+  }
+
+.value {
+    width: 65%;
+  }
+
+.rows {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+.form {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2xs);
+    padding: var(--space-sm) 0;
+  }
+
+.label {
+    width: 100%;
+    min-width: unset;
+    padding-right: 0;
+    margin-bottom: 0;
+  }
+
+.label label {
+    font-size: var(--typography-small-size);
+  }
+
+.value {
+    width: 100%;
+    max-height: none;
+  }
+
+.value p {
+    font-size: var(--typography-small-size);
+  }
+

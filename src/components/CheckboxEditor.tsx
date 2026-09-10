@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
+import type { PropertyShapeWire } from '@_linked/core/shapes/nodeShapeWire';
 import { Checkbox } from '@_linked/primitives/components/Checkbox';
-import { PropertyShape } from '@_linked/core/shapes/SHACL';
 import style from './CheckboxEditor.module.css';
 
 export interface CheckboxEditorProps {
   onCheckedChange?: (e) => void;
-  of?: Shape;
-  property?: PropertyShape;
+  of?: Record<string, any>;
+  property?: PropertyShapeWire;
 
   /**
    *  Converts the value returned by the shape, to the input string for the checkbox

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
 import { Textarea } from '@_linked/primitives/components/Textarea';
 
 export interface TextareaEditorProps {
   onChange?: (e) => void;
   value?: string[];
-  of?: Shape;
+  of?: Record<string, any>;
   property?: string;
   children?;
   className?;

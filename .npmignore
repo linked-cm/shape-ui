@@ -1,5 +1,9 @@
 **/node_modules
-src
+
+# `src` is SHIPPED: the exports map resolves the `development` condition and tokens.css
+# from it. Tests are not.
+**/*.test.ts
+**/*.test.tsx
 .idea
 Gruntfile.js
 tsconfig.json
