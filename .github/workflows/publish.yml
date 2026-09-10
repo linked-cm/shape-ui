@@ -101,14 +101,26 @@ jobs:
           fi
 
           echo "Staging $name@$version…"
-          npm stage publish --access public --provenance
+          # Capture the output: `npm stage publish` prints the stage id, and `npm stage
+          # approve` takes ONLY that id — a package spec is rejected with "stage-id must be a
+          # valid UUID". Without this the notice below hands out a command that does not work.
+          out=$(npm stage publish --access public --provenance 2>&1 | tee /dev/stderr)
+          uuid='[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+          # `|| true` because the script runs under `set -euo pipefail`: a grep that matches
+          # nothing exits 1 and would fail the step even though the staging itself succeeded.
+          stage_id=$(printf '%s' "$out" | grep -oE "$uuid" | tail -1 || true)
 
           {
             echo "### 📦 \`$name@$version\` is staged, not published"
             echo
             echo "It is uploaded and held for review. **Approve it to make it public:**"
             echo
-            echo "- **CLI:** \`npm stage approve $name@$version\`"
+            if [ -n "$stage_id" ]; then
+              echo "- **CLI:** \`npm stage approve $stage_id\`"
+            else
+              echo "- **CLI:** \`npm stage list $name\` to find the id, then"
+              echo "  \`npm stage approve <stage-id>\`"
+            fi
             echo "- **Web:** [npmjs.com](https://www.npmjs.com) → your avatar → **Staged"
             echo "  Packages** → **Approve**. The button stays disabled until npm has"
             echo "  finished scanning the tarball; the page refreshes every minute."
@@ -117,7 +129,11 @@ jobs:
             echo "\`$(npm view "$name" version 2>/dev/null || echo 'nothing')\`."
           } >> "$GITHUB_STEP_SUMMARY"
 
-          echo "::notice title=Approval needed::$name@$version is staged. Run: npm stage approve $name@$version — or approve it from Staged Packages in the npm user menu."
+          if [ -n "$stage_id" ]; then
+            echo "::notice title=Approval needed::$name@$version is staged. Run: npm stage approve $stage_id"
+          else
+            echo "::notice title=Approval needed::$name@$version is staged, but the stage id could not be read from the output. Run: npm stage list $name"
+          fi
 
       # When changesets opened/updated the version PR, merge it so the release reaches the
       # staging queue without a manual click. App token → the merge's push re-triggers this
