@@ -18,20 +18,12 @@
  * studio that authors them. See arch-03 §UI package layering.
  */
 
-//SHAPES FIRST
-// import './shapes/YourShape';
+// No side effects here. Registration — the ontology and the editors as linked components —
+// lives in `./register.js`, because the ontology module self-imports and pulling that in as a
+// side effect of importing a type breaks class initialisation elsewhere in the graph.
+//
+//   import '@_linked/shape-ui/register';   // only if you need dynamic component resolution
 
-//THEN COMPONENTS — the editors register themselves on import.
-import './ontologies/lincd-ui.js';
-import './components/TextfieldEditor.js';
-import './components/RadioButtonEditor.js';
-import './components/TextareaEditor.js';
-import './components/DateEditor.js';
-import './components/SwitchEditor.js';
-import './components/CheckboxEditor.js';
-import './components/ToggleEditor.js';
-import './components/SelectEditor.js';
-import './components/AvatarEditor.js';
 
 export type {
   DataManagerHost,
