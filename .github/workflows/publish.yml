@@ -14,6 +14,10 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      # `--provenance` signs the tarball with a GitHub OIDC token, so the job must be able to
+      # mint one. This does NOT switch the package to OIDC trusted publishing — authentication
+      # is still the org npm token.
+      id-token: write
     steps:
       # Author the changesets "Version Packages" PR as the org release App (not the default
       # GITHUB_TOKEN) so its CI runs without a manual "Approve and run" gate. Requires the org
