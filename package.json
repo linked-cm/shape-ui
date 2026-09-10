@@ -1,6 +1,6 @@
 {
-  "name": "@_linked/ui",
-  "description": "",
+  "name": "@_linked/shape-ui",
+  "description": "Shape-driven UI: components that take a shape and a property shape and render an editor for any shape, rather than a known one. Built on @_linked/primitives.",
   "author": {
     "name": "",
     "email": "",
