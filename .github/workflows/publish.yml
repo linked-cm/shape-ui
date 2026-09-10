@@ -36,31 +36,92 @@ jobs:
           node-version: 22.16.0
           registry-url: 'https://registry.npmjs.org'
 
+      # `npm stage` landed in CLI 11.15.0; Node 22.16 ships npm 10.x, so the bundled one
+      # cannot stage. Pinned rather than `@latest` so a future npm release cannot change how
+      # releases behave without a commit here.
+      - name: Use an npm that can stage
+        run: npm i -g npm@^11.15.0
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
 
-      - name: Create release Pull Request or Publish
+      # No `publish:` — changesets only opens/updates the version PR here. Publishing is the
+      # step below, because `changeset publish` shells out to `npm publish`, which a
+      # stage-only token cannot do (changesets/changesets#2025 is open for first-class
+      # support). Splitting them keeps changesets doing what it is good at — versions and
+      # changelogs — and leaves the registry call to us.
+      - name: Create release Pull Request
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: npx changeset publish
           title: 'chore: release'
           commit: 'chore: release'
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      # Stage the version for a human to approve.
+      #
+      # A staged version is uploaded but NOT public: a maintainer reviews it and approves with
+      # 2FA, from the Staged Packages tab in the npm user menu or `npm stage approve`. That is
+      # the point — every release keeps a proof-of-presence step even though CI is
+      # unattended — and it is why the org token is scoped "read and write (stage only)".
+      #
+      # Idempotent: this workflow runs on every push to main, including the merge of the
+      # version PR and any later commit, so it must do nothing when the version is already on
+      # the registry or already sitting in the queue.
+      - name: Stage the release for approval
+        if: steps.changesets.outputs.hasChangesets != 'true'
+        env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          private=$(node -p "require('./package.json').private === true")
+          if [ "$private" = "true" ]; then
+            echo "$name is private — nothing to publish."; exit 0
+          fi
 
-      # When changesets opened/updated the version PR (rather than publishing), merge it so the
-      # release ships without a manual click. App token → the merge's push re-triggers this
-      # workflow, which then runs `changeset publish`. DIRECT-merge (not `--auto`): GitHub
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already on the registry — nothing to do."
+            exit 0
+          fi
+
+          if npm stage list "$name" 2>/dev/null | grep -q "$version"; then
+            echo "$name@$version is already staged and waiting for approval."
+            exit 0
+          fi
+
+          echo "Staging $name@$version…"
+          npm stage publish --access public --provenance
+
+          {
+            echo "### 📦 \`$name@$version\` is staged, not published"
+            echo
+            echo "It is uploaded and held for review. **Approve it to make it public:**"
+            echo
+            echo "- **CLI:** \`npm stage approve $name@$version\`"
+            echo "- **Web:** [npmjs.com](https://www.npmjs.com) → your avatar → **Staged"
+            echo "  Packages** → **Approve**. The button stays disabled until npm has"
+            echo "  finished scanning the tarball; the page refreshes every minute."
+            echo
+            echo "Both prompt for 2FA. Until then \`npm install $name\` still resolves"
+            echo "\`$(npm view "$name" version 2>/dev/null || echo 'nothing')\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "::notice title=Approval needed::$name@$version is staged. Run: npm stage approve $name@$version — or approve it from Staged Packages in the npm user menu."
+
+      # When changesets opened/updated the version PR, merge it so the release reaches the
+      # staging queue without a manual click. App token → the merge's push re-triggers this
+      # workflow, which then stages. DIRECT-merge (not `--auto`): GitHub
       # auto-merge ignores branch-protection review-bypass allowances; main is check-only so a
       # direct merge lands once the required check is green — retry until then.
-      - name: Merge the version PR to publish
-        if: steps.changesets.outputs.hasChangesets == 'true' && steps.changesets.outputs.published != 'true'
+      - name: Merge the version PR to stage the release
+        if: steps.changesets.outputs.hasChangesets == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
