@@ -9,14 +9,23 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "pretty": true,
-    "jsx": "react",
-    "types": ["node", "react", "react-dom"],
+    "jsx": "react-jsx",
+    "types": [
+      "node",
+      "react",
+      "react-dom"
+    ],
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
       }
     ]
   },
-  "files": ["./src/types.d.ts", "./src/index.ts"],
-  "include": ["./src/backend.ts"]
+  "files": [
+    "./src/types.ts",
+    "./src/index.ts"
+  ],
+  "include": [
+    "./src/backend.ts"
+  ]
 }

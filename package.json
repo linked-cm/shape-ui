@@ -1,6 +1,6 @@
 {
   "name": "@_linked/shape-ui",
-  "description": "Shape-driven UI: components that take a shape and a property shape and render an editor for any shape, rather than a known one. Built on @_linked/primitives.",
+  "description": "UI driven by a shape: editors, a table over any shape's instances, a form derived from its properties, a read-only view and a relation picker — plus the read and write paths through the Linked Query DSL.",
   "author": {
     "name": "",
     "email": "",
@@ -8,18 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/linked-cm/ui.git"
+    "url": "git+https://github.com/linked-cm/shape-ui.git"
   },
-  "version": "2.0.0",
+  "version": "2.1.0",
+  "type": "module",
   "linkedPackage": true,
-  "main": "lib/index.js",
-  "types": "dist/lincd-ui.d.ts",
+  "main": "lib/esm/index.js",
+  "types": "lib/esm/index.d.ts",
   "license": "ISC",
   "scripts": {
     "start": "npm exec linked dev",
     "build": "rimraf ./lib && yarn build-esm && yarn copy-to-lib",
-    "build-esm": "echo \"compiling ESM\" && rimraf ./lib/esm && (yarn tsc -p tsconfig-esm.json || echo 'tsc returned non-zero; .js still emitted via noEmitOnError default')",
-    "copy-to-lib": "echo 'copying CSS + JSON assets to lib folder' && yarn copyfiles -u 1 'src/**/*.css' 'src/**/*.json' lib/esm"
+    "build-esm": "echo \"compiling ESM\" && rimraf ./lib/esm && tsc -p tsconfig-esm.json",
+    "copy-to-lib": "echo 'copying CSS + JSON assets to lib folder' && copyfiles -u 1 'src/**/*.css' 'src/**/*.json' lib/esm"
   },
   "keywords": [
     "lincd",
@@ -29,19 +30,25 @@
     "web3"
   ],
   "dependencies": {
-    "@_linked/core": "^2.0.1",
-    "@_linked/primitives": "^1.0",
-    "@_linked/react": "^1.2",
+    "@_linked/core": "^2.18.0",
+    "@_linked/react": "^1.4",
     "@_linked/schema": "^1.0",
-    "@_linked/server": "^2.0"
+    "@tanstack/react-table": "^8.20.5"
   },
   "devDependencies": {
     "@_linked/cli": "^1.2",
+    "@_linked/css": "^0.3.0",
+    "@_linked/icons": "^1.0.0",
+    "@_linked/primitives": "^1.2.0",
     "@capacitor/core": "^5.3.0",
     "@changesets/changelog-github": "^0.5.2",
     "@changesets/cli": "^2.29.8",
     "@types/node": "^20.14.9",
+    "@types/react": "^18.0.17",
     "copyfiles": "^2.4.1",
+    "framer-motion": "^12.0.0",
+    "react": "^18.2",
+    "react-dom": "^18.2",
     "rimraf": "^5.0.7",
     "tsconfig-to-dual-package": "^1.2.0",
     "typescript": "^5.7.3",
@@ -50,17 +57,24 @@
   "module": "lib/esm/index.js",
   "exports": {
     ".": {
+      "development": "./src/index.ts",
       "types": "./lib/esm/index.d.ts",
-      "import": "./lib/esm/index.js"
+      "import": "./lib/esm/index.js",
+      "default": "./lib/esm/index.js"
     },
-    "./*.js": {
-      "types": "./lib/esm/*.d.ts",
-      "import": "./lib/esm/*.js"
+    "./components/*": {
+      "development": "./src/components/*.tsx",
+      "types": "./lib/esm/components/*.d.ts",
+      "import": "./lib/esm/components/*.js",
+      "default": "./lib/esm/components/*.js"
     },
     "./*": {
+      "development": "./src/*.ts",
       "types": "./lib/esm/*.d.ts",
-      "import": "./lib/esm/*.js"
-    }
+      "import": "./lib/esm/*.js",
+      "default": "./lib/esm/*.js"
+    },
+    "./tokens.css": "./src/tokens.css"
   },
   "typesVersions": {
     "*": {
@@ -71,5 +85,17 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "peerDependencies": {
+    "@_linked/css": "^0.3.0",
+    "@_linked/icons": "^1.0.0",
+    "@_linked/primitives": "^1.2.0",
+    "framer-motion": ">=11",
+    "react": "^18 || ^19"
+  },
+  "files": [
+    "lib",
+    "src",
+    "README.md"
+  ]
 }

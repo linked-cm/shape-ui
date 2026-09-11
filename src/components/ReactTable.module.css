@@ -1,0 +1,950 @@
+/* ============================================================================
+   ReactTable.module.css
+   
+   Data table component with sorting, filtering, and pagination.
+   Uses semantic tokens from theme.css.
+   ============================================================================ */
+
+/* === Action Bar (above table) === */
+.action {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--surface-gap);
+  margin-bottom: 0;
+  padding: var(--space-md) var(--space-md);
+  border-radius: var(--radius-box) var(--radius-surface) 0 0;
+  overflow: visible;
+}
+
+.action.withBorder {
+  border-bottom: 1px solid var(--table-row-border);
+}
+
+/* === Table Mode Toggle === */
+.tableModeToggle {
+  display: flex;
+  gap: 2px;
+  margin-left: var(--space-xs);
+}
+
+/* === Filter Drawer === */
+.filterDrawer {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  width: 320px !important;
+  min-width: 320px !important;
+  background-color: var(--surface-bg) !important;
+  border-left: 1px solid var(--surface-border) !important;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15) !important;
+  /* Square corners on right, curved on left */
+  border-radius: var(--radius-surface) 0 0 var(--radius-surface) !important;
+}
+
+.filterDrawerContent {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.filterDrawerHeader {
+  padding: var(--space-lg) !important;
+  border-bottom: 1px solid var(--surface-border);
+  text-align: left !important;
+}
+
+.filterDrawerHeader h2,
+.filterDrawerHeader [class*='Title'] {
+  color: var(--heading-color);
+  margin-bottom: var(--space-xs);
+}
+
+.filterDrawerHeader p,
+.filterDrawerHeader [class*='Description'] {
+  color: var(--table-cell-text);
+  color: var(--text-auxiliary);
+}
+
+.filterDrawerBody {
+  flex: 1;
+  padding: var(--space-lg);
+  overflow-y: auto;
+}
+
+.filterDrawerFooter {
+  padding: var(--space-lg) !important;
+  border-top: 1px solid var(--surface-border);
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+/* Dark mode for filter drawer */
+[data-theme='dark'] .filterDrawer {
+  background-color: var(--surface-bg) !important;
+  border-left-color: var(--surface-border) !important;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-theme='dark'] .filterDrawerHeader {
+  border-bottom-color: var(--surface-border);
+}
+
+[data-theme='dark'] .filterDrawerHeader h2,
+[data-theme='dark'] .filterDrawerHeader [class*='Title'] {
+  color: var(--react-table-gray-50, var(--color-gray-50));
+}
+
+[data-theme='dark'] .filterDrawerHeader p,
+[data-theme='dark'] .filterDrawerHeader [class*='Description'] {
+  color: var(--react-table-gray-400, var(--color-gray-400));
+}
+
+[data-theme='dark'] .filterDrawerFooter {
+  border-top-color: var(--surface-border);
+}
+
+/* === Selection Bar (batch operations) === */
+.selectionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background-color: color-mix(in srgb, var(--react-table-tertiary-500, var(--color-tertiary-500)) 8%, var(--surface-bg));
+  border-bottom: 1px solid color-mix(in srgb, var(--react-table-tertiary-500, var(--color-tertiary-500)) 30%, transparent);
+  overflow: hidden;
+}
+
+.selectionCount {
+  font-size: var(--typography-small-size);
+  font-weight: 600;
+  color: var(--react-table-tertiary-500, var(--color-tertiary-500));
+  white-space: nowrap;
+}
+
+.selectionActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* === Batch Result Bar === */
+.batchResultBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background-color: color-mix(in srgb, var(--react-table-green-500, var(--color-green-500)) 10%, var(--surface-bg));
+  border-bottom: 1px solid color-mix(in srgb, var(--react-table-green-500, var(--color-green-500)) 30%, transparent);
+  font-size: var(--typography-small-size);
+  color: var(--react-table-green-600, var(--color-green-600));
+  overflow: hidden;
+}
+
+.batchResultError {
+  background-color: color-mix(in srgb, var(--react-table-red-500, var(--color-red-500)) 8%, var(--surface-bg));
+  border-bottom-color: color-mix(in srgb, var(--react-table-red-500, var(--color-red-500)) 30%, transparent);
+  color: var(--intent-danger-text);
+}
+
+.batchResultDismiss {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-field);
+  transition: background-color var(--transition-fast);
+}
+
+.batchResultDismiss:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .batchResultBar {
+  color: var(--react-table-green-400, var(--color-green-400));
+}
+
+[data-theme='dark'] .batchResultError {
+  color: var(--react-table-red-400, var(--color-red-400));
+}
+
+[data-theme='dark'] .batchResultDismiss:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* === Table Wrapper === */
+.tableWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-box);
+  position: relative;
+  isolation: isolate;
+}
+
+/* === Delete Button === */
+.deleteDataButton {
+  color: var(--intent-danger-text) !important;
+  border-color: var(--intent-danger-border) !important;
+
+  &:hover {
+    color: #fff !important;
+    background-color: var(--react-table-red-500, var(--color-red-500)) !important;
+  }
+}
+
+/* === Table Bar (filters row) === */
+.tableBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  border-bottom: 1px solid var(--table-row-border);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--table-header-bg);
+  overflow: hidden;
+}
+
+.filterBar {
+  display: flex;
+  gap: var(--surface-gap);
+  align-items: center;
+  flex: 1;
+  min-height: 40px;
+}
+
+.filterLabel {
+  color: var(--react-table-gray-500, var(--color-gray-500));
+  font-size: var(--typography-large-size);
+}
+
+[data-theme='dark'] .filterLabel {
+  color: var(--react-table-gray-400, var(--color-gray-400));
+}
+
+/* === Tab Filters (All Items, High Priority, Completed) === */
+.tabFilters {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background-color: var(--field-bg);
+  border-radius: var(--radius-full);
+}
+
+.tabButton {
+  padding: var(--space-sm) 1rem;
+  border-radius: var(--radius-full);
+  font-size: var(--typography-small-size);
+  font-weight: 500;
+  color: var(--table-cell-text);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    background-color: var(--list-item-bg-hover);
+  }
+
+  &.active {
+    background-color: var(--surface-bg);
+    color: var(--text-primary);
+    color: var(--table-cell-text-primary);
+    box-shadow: var(--surface-shadow);
+  }
+}
+
+/* === Filter/Sort Icons === */
+.tableActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--react-table-gray-400, var(--color-gray-400));
+
+  span,
+  button {
+    cursor: pointer;
+    padding: var(--space-sm);
+    border-radius: var(--radius-field);
+    transition: all var(--transition-fast);
+
+    &:hover {
+      color: var(--react-table-tertiary-500, var(--color-tertiary-500));
+      background-color: var(--list-item-bg-hover);
+    }
+  }
+}
+
+/* === Table Container === */
+.tableContainer {
+  width: 100%;
+  max-height: 600px;
+  overflow: auto;
+}
+
+/* Custom scrollbar styling */
+.tableContainer::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.tableContainer::-webkit-scrollbar-track {
+  background: var(--surface-bg);
+}
+
+.tableContainer::-webkit-scrollbar-thumb {
+  background: var(--react-table-gray-300, var(--color-gray-300));
+  border-radius: 6px;
+  border: 3px solid var(--surface-bg);
+}
+
+.tableContainer::-webkit-scrollbar-thumb:hover {
+  background: var(--react-table-gray-400, var(--color-gray-400));
+}
+
+.tableContainer::-webkit-scrollbar-corner {
+  background: var(--surface-bg);
+}
+
+/* === Table === */
+.table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* === Table Row === */
+.tr {
+  display: table-row;
+}
+
+/* === Cell Value States === */
+.green {
+  color: var(--react-table-green-600, var(--color-green-600));
+}
+
+.red {
+  color: var(--react-table-red-500, var(--color-red-500));
+}
+
+/* === Table Header === */
+thead th {
+  position: sticky;
+  top: 0;
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  font-size: var(--typography-small-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--space-lg) 1.5rem;
+  text-align: left;
+  border-bottom: 1px solid var(--table-header-border);
+  white-space: nowrap;
+}
+
+.th {
+  cursor: pointer;
+  background-color: var(--table-header-bg);
+}
+
+.th:first-child {
+  z-index: 1;
+}
+
+.th:last-child {
+  z-index: 1;
+  text-align: right;
+}
+
+.th:first-child,
+.td:first-child {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.th:last-child,
+.td:last-child {
+  width: 100px;
+  text-align: right;
+}
+
+/* === Sortable Column Header === */
+.canSort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs-plus);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--react-table-tertiary-500, var(--color-tertiary-500));
+  }
+}
+
+/* === Table Body === */
+tbody td {
+  font-size: var(--typography-small-size);
+  font-weight: 400;
+  color: var(--table-cell-text);
+  padding: var(--space-lg) 1.5rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--table-row-border);
+  white-space: nowrap;
+
+  @media only screen and (max-width: 768px) {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* Sticky columns mobile padding */
+@media only screen and (max-width: 768px) {
+  thead th.sticky {
+    padding: var(--space-sm) var(--space-sm);
+  }
+
+  tbody td.sticky {
+    padding: var(--space-sm) var(--space-sm);
+  }
+
+  tbody td.stickyRight {
+    padding: var(--space-sm) var(--space-xs);
+  }
+}
+
+.td {
+  vertical-align: middle;
+}
+
+/* === Table Row === */
+tbody tr {
+  background-color: var(--table-row-bg);
+  transition: background-color var(--transition-fast);
+
+  &:hover {
+    background-color: var(--table-row-bg-hover);
+  }
+}
+
+/* Pick mode: clickable row with highlight */
+.pickableRow:hover {
+  background-color: color-mix(in srgb, var(--react-table-tertiary-500, var(--color-tertiary-500)) 10%, var(--table-row-bg-hover)) !important;
+}
+
+.pickableRow:hover .sticky {
+  background-color: color-mix(in srgb, var(--react-table-tertiary-500, var(--color-tertiary-500)) 10%, var(--table-row-bg-hover)) !important;
+}
+
+/* Pick mode: disabled rows (maxCount reached) */
+.pickDisabledRow {
+  opacity: 0.5;
+}
+
+/* === Primary Cell Text (IDs, Names) === */
+.cellPrimary {
+  font-weight: 500;
+  color: var(--table-cell-text-primary);
+}
+
+/* === Cell with Avatar === */
+.cellWithAvatar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm-plus);
+}
+
+.cellAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* === Action Buttons === */
+.actionButtons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+}
+
+.actionTableButton {
+  background-color: transparent;
+  border: none;
+  padding: var(--space-xs-plus);
+  border-radius: var(--radius-field);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionTableButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* View action - green (using !important to override IconButton library styles) */
+.viewAction {
+  color: var(--react-table-green-500, var(--color-green-500)) !important;
+}
+
+.viewAction:hover {
+  color: var(--react-table-green-600, var(--color-green-600)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--react-table-green-500, var(--color-green-500)) 12%,
+    transparent
+  ) !important;
+}
+
+/* Edit action - tertiary/teal */
+.editAction {
+  color: var(--react-table-tertiary-500, var(--color-tertiary-500)) !important;
+}
+
+.editAction:hover {
+  color: var(--react-table-tertiary-600, var(--color-tertiary-600)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--react-table-tertiary-500, var(--color-tertiary-500)) 12%,
+    transparent
+  ) !important;
+}
+
+/* Delete/Remove action - red */
+.removeAction {
+  color: var(--react-table-red-500, var(--color-red-500)) !important;
+}
+
+.removeAction:hover {
+  color: var(--react-table-red-600, var(--color-red-600)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--react-table-red-500, var(--color-red-500)) 12%,
+    transparent
+  ) !important;
+}
+
+/* Mobile/Tablet - more condensed action buttons */
+@media only screen and (max-width: 768px) {
+  .actionButtons {
+    gap: 0;
+  }
+
+  .actionTableButton {
+    padding: var(--space-xs);
+  }
+
+  .actionTableButton svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* === Sticky Columns === */
+.sticky {
+  position: sticky;
+  background: var(--table-row-bg);
+}
+
+tbody tr:hover .sticky {
+  background: var(--table-row-bg-hover);
+}
+
+.stickyLeft {
+  left: 0;
+}
+
+.stickyRight {
+  right: 0;
+  background: var(--surface-bg);
+}
+
+/* === Checkbox Styling for Table === */
+.th:first-child,
+.td:first-child {
+  /* Smaller checkbox in table */
+  --checkbox-size: 18px;
+  --checkbox-indicator-size: 12px;
+}
+
+/* === Pagination === */
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 1.5rem;
+  border-top: 1px solid var(--table-row-border);
+  background-color: var(--table-header-bg);
+
+  @media only screen and (max-width: 1024px) {
+    gap: var(--space-md);
+    padding: var(--space-md) 1rem;
+  }
+
+  @media only screen and (max-width: 768px) {
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--text-xs);
+  }
+
+  @media only screen and (max-width: 430px) {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.pageInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  /* Let Typography component control base font-size */
+  color: var(--pagination-text);
+
+  strong,
+  .bold {
+    font-weight: 600;
+    color: var(--pagination-text-bold);
+  }
+
+  @media only screen and (max-width: 1024px) {
+    font-size: var(--text-xs);
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: var(--text-xs);
+  }
+}
+
+.goToPageForm {
+  width: 80px;
+
+  @media only screen and (max-width: 768px) {
+    width: 60px;
+  }
+}
+
+/* Number input spinner buttons for dark mode */
+[data-theme='dark'] .goToPageForm::-webkit-inner-spin-button,
+[data-theme='dark'] .goToPageForm::-webkit-outer-spin-button {
+  filter: invert(1);
+}
+
+.pageInput,
+.pageShowItem {
+  @media only screen and (max-width: 1024px) {
+    font-size: var(--text-xs);
+  }
+
+  @media only screen and (max-width: 430px) {
+    display: none;
+  }
+}
+
+/* === Pagination Buttons === */
+.paginationButtons {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.paginationButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+  border: 1px solid var(--pagination-button-border);
+  border-radius: 50%;
+  color: var(--pagination-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+
+  &:hover:not(:disabled) {
+    border-color: var(--pagination-button-hover-border);
+    color: var(--pagination-button-hover-text);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 32px;
+    height: 32px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+}
+
+/* === Content Loader === */
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem;
+}
+
+/* === Scrollable Body Container === */
+.tbodyContainer {
+  display: block;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.tbodyContainer tbody {
+  display: block;
+}
+
+.tbodyContainer tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.tbodyContainer td {
+  display: table-cell;
+}
+
+/* === Drawer Body (for modals) === */
+.drawerBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem 0;
+
+  img {
+    width: 150px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  p {
+    text-align: center;
+  }
+}
+
+/* === Enum Checkboxes (multi-select filter) === */
+.enumCheckboxes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  max-height: 200px;
+  overflow-y: auto;
+  padding: var(--space-xs) 0;
+}
+
+.enumCheckboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-field);
+  cursor: pointer;
+  font-size: var(--typography-small-size);
+  color: var(--text-primary);
+  transition: background-color var(--transition-fast);
+}
+
+.enumCheckboxLabel:hover {
+  background-color: var(--list-item-bg-hover);
+}
+
+/* === Filter Notice === */
+.filterNotice {
+  color: var(--text-auxiliary);
+  font-size: var(--text-xs);
+  margin-top: var(--space-md);
+  text-align: center;
+}
+
+/* === Badge (inline with table) === */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  background-color: transparent;
+  color: var(--react-table-tertiary-500, var(--color-tertiary-500));
+  border: 1px solid var(--react-table-tertiary-500, var(--color-tertiary-500));
+  padding: var(--space-xs-plus) 0.75rem;
+  border-radius: var(--radius-field);
+  font-size: var(--typography-small-size);
+  font-weight: 500;
+}
+
+.badgeText {
+  margin-right: 0.25rem;
+}
+
+.badgeCloseButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  margin-left: 0.25rem;
+  padding: 0;
+
+  &:hover {
+    color: var(--intent-danger-text);
+  }
+}
+
+/* === Dark Mode === */
+[data-theme='dark'] .tableWrapper {
+  background-color: var(--surface-bg);
+  border-color: var(--surface-border);
+}
+
+[data-theme='dark'] thead th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-text);
+  border-color: var(--table-header-border);
+}
+
+[data-theme='dark'] tbody tr {
+  background-color: var(--table-row-bg);
+}
+
+[data-theme='dark'] tbody tr:hover {
+  background-color: var(--table-row-bg-hover);
+}
+
+[data-theme='dark'] tbody td {
+  color: var(--table-cell-text);
+  border-color: var(--table-row-border);
+}
+
+[data-theme='dark'] .cellPrimary {
+  color: var(--table-cell-text-primary);
+}
+
+[data-theme='dark'] .pagination {
+  background-color: var(--table-header-bg);
+  border-color: var(--table-row-border);
+}
+
+/* .tabButton.active uses --text-primary which auto-adjusts for dark mode */
+[data-theme='dark'] .tabButton.active {
+  background-color: var(--surface-bg);
+  color: var(--table-cell-text-primary);
+}
+
+/* Dark mode action buttons */
+[data-theme='dark'] .viewAction {
+  color: var(--react-table-green-400, var(--color-green-400)) !important;
+}
+
+[data-theme='dark'] .viewAction:hover {
+  color: var(--react-table-green-300, var(--color-green-300)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--react-table-green-500, var(--color-green-500)) 15%,
+    transparent
+  ) !important;
+}
+
+[data-theme='dark'] .editAction {
+  color: var(--react-table-tertiary-400, var(--color-tertiary-400)) !important;
+}
+
+[data-theme='dark'] .editAction:hover {
+  color: var(--react-table-tertiary-300, var(--color-tertiary-300)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--react-table-tertiary-500, var(--color-tertiary-500)) 15%,
+    transparent
+  ) !important;
+}
+
+[data-theme='dark'] .removeAction {
+  color: var(--react-table-red-400, var(--color-red-400)) !important;
+}
+
+[data-theme='dark'] .removeAction:hover {
+  color: var(--react-table-red-300, var(--color-red-300)) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--react-table-red-500, var(--color-red-500)) 15%,
+    transparent
+  ) !important;
+}
+
+/* Dark mode sticky columns */
+[data-theme='dark'] .sticky {
+  background: var(--table-row-bg);
+}
+
+[data-theme='dark'] tbody tr:hover .sticky {
+  background: var(--table-row-bg-hover);
+}
+
+[data-theme='dark'] .stickyRight {
+  background: var(--surface-bg);
+}
+
+[data-theme='dark'] thead th.sticky,
+[data-theme='dark'] thead th.stickyRight {
+  background: var(--table-header-bg);
+}
+
+/* Dark mode scrollbar */
+[data-theme='dark'] .tableContainer::-webkit-scrollbar-track {
+  background: var(--surface-bg);
+}
+
+[data-theme='dark'] .tableContainer::-webkit-scrollbar-thumb {
+  background: var(--react-table-gray-700, var(--color-gray-700));
+  border-color: var(--surface-bg);
+}
+
+[data-theme='dark'] .tableContainer::-webkit-scrollbar-thumb:hover {
+  background: var(--react-table-gray-600, var(--color-gray-600));
+}
+
+[data-theme='dark'] .tableContainer::-webkit-scrollbar-corner {
+  background: var(--surface-bg);
+}

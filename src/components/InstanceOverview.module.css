@@ -1,0 +1,35 @@
+/* ============================================================================
+   InstanceOverview.module.css
+   
+   Instance data display styles for table cells.
+   Uses semantic tokens from theme.css.
+   ============================================================================ */
+
+/* === Node Badge === */
+.node {
+  display: inline-block;
+  background-color: var(--instance-overview-gray-100, var(--color-gray-100));
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-selector);
+  color: var(--table-cell-text);
+  font-size: var(--typography-small-size);
+}
+
+/* === Literal Value === */
+.literal {
+  display: inline-block;
+  color: var(--table-cell-text);
+}
+
+/* ============================================================================
+   Dark Mode
+   ============================================================================ */
+
+[data-theme='dark'] .node {
+  background-color: var(--instance-overview-gray-700, var(--color-gray-700));
+  color: var(--table-cell-text);
+}
+
+[data-theme='dark'] .literal {
+  color: var(--table-cell-text);
+}

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
+import type { PropertyShapeWire } from '@_linked/core/shapes/nodeShapeWire';
 import { Switch } from '@_linked/primitives/components/Switch';
-import { PropertyDetails } from '@_linked/server/utils/Shapes';
 
 export interface SwitchEditorProps {
   onCheckedChange?: (e) => void;
-  of?: Shape;
-  property?: PropertyDetails;
+  of?: Record<string, any>;
+  property?: PropertyShapeWire;
 
   /**
    *  Converts the value returned by the shape, to the input string for the switch

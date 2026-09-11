@@ -1,0 +1,57 @@
+/* ============================================================================
+   FormField.module.css
+   
+   Basic form field wrapper component.
+   Uses semantic tokens from theme.css.
+   ============================================================================ */
+
+/* === Root Container === */
+.Root {
+  display: grid;
+  width: 100%;
+  max-width: 24rem;
+  align-items: center;
+  gap: var(--space-xs-plus);
+}
+
+.Root div > input {
+  width: 98%;
+  background-color: var(--field-bg);
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius-field);
+  padding: var(--space-sm-plus) 0.75rem;
+  color: var(--field-text);
+  font-size: var(--typography-small-size);
+  transition: all var(--transition-fast);
+}
+
+.Root div > input:focus {
+  outline: none;
+  border-color: var(--field-border-focus);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--form-field-tertiary-500, var(--color-tertiary-500)) 15%, transparent);
+}
+
+.Root div > input::placeholder {
+  color: var(--field-text-placeholder);
+}
+
+/* ============================================================================
+   Dark Mode
+   ============================================================================ */
+
+[data-theme='dark'] .Root div > input {
+  background-color: var(--field-bg);
+  border-color: var(--field-border);
+  color: var(--field-text);
+}
+
+[data-theme='dark'] .Root div > input:focus {
+  border-color: var(--field-border-focus);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--form-field-tertiary-500, var(--color-tertiary-500)) 20%, transparent);
+}
+
+[data-theme='dark'] .Root div > input::placeholder {
+  color: var(--field-text-placeholder);
+}

@@ -1,0 +1,25 @@
+.Root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.inactive {
+  opacity: 0.55;
+}
+
+.toggle,
+.remove {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.remove {
+  opacity: 0.7;
+}
+
+.remove:hover {
+  opacity: 1;
+}

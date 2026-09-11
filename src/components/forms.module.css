@@ -1,0 +1,96 @@
+/* ============================================================================
+   EditInstanceForms.module.css
+
+   Form layout for editing instance data.
+   Matches ViewInstance styling with card container.
+   Uses semantic tokens from theme.css.
+   ============================================================================ */
+
+/* === Container (Card) === */
+.container {
+  background: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-box);
+  margin: var(--section-gap) 0;
+}
+
+/* === Rows Wrapper === */
+.rows {
+  padding: var(--surface-gap) var(--space-2xl) var(--space-lg) var(--space-2xl);
+}
+
+/* === Section Title === */
+.sectionTitle {
+  margin: 0;
+  padding: var(--surface-padding) var(--space-2xl) 0 var(--space-2xl);
+  font-size: var(--typography-small-size);
+  color: var(--forms-gray-500, var(--color-gray-500));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === Add Field Section === */
+.addFieldSection {
+  padding: var(--space-sm) 0;
+}
+
+/* === Save Error === */
+.saveError {
+  color: var(--intent-danger-text);
+  font-size: var(--typography-small-size);
+  margin: var(--space-sm) 0 0;
+}
+
+/* === Actions === */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--surface-gap);
+  margin-top: var(--space-lg);
+}
+
+/* ============================================================================
+   Dark Mode
+   ============================================================================ */
+
+/* .container uses --card-bg / --card-border which auto-switch in dark mode */
+
+[data-theme='dark'] .sectionTitle {
+  color: var(--forms-gray-400, var(--color-gray-400));
+}
+
+/* ============================================================================
+   Mobile Responsive Styles
+   ============================================================================ */
+
+@media only screen and (max-width: 768px) {
+  .rows {
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .container {
+    margin: var(--space-md) 0;
+    border-radius: var(--radius-field);
+  }
+
+  .rows {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .sectionTitle {
+    padding: var(--space-sm) var(--space-sm) 0 var(--space-sm);
+    font-size: 0.6875rem;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    gap: var(--space-sm);
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

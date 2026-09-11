@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Shape } from '@_linked/core/shapes/Shape';
+import type { PropertyShapeWire } from '@_linked/core/shapes/nodeShapeWire';
 import { Root as Toggle } from '@_linked/primitives/components/Toggle';
-import { PropertyShape } from '@_linked/core/shapes/SHACL';
 
 export interface ToggleEditorProps {
   onPressedChange?: (e) => void;
-  of?: Shape;
-  property?: PropertyShape;
+  of?: Record<string, any>;
+  property?: PropertyShapeWire;
   children: React.ReactNode;
   /**
    *  Converts the value returned by the shape, to the input string for the toggle

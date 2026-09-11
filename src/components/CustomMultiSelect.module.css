@@ -1,0 +1,291 @@
+/* ============================================================================
+   CustomMultiSelect.module.css
+
+   Multi-select dropdown with search and create new functionality.
+   Uses semantic tokens from theme.css.
+   ============================================================================ */
+
+/* === Root Container === */
+.Root {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+/* === Table icon === */
+.tableIcon {
+  cursor: pointer;
+  color: var(--custom-multi-select-gray-500, var(--color-gray-500));
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.tableIcon:hover {
+  color: var(--custom-multi-select-tertiary-500, var(--color-tertiary-500));
+}
+
+/* === Selected Options Container === */
+.selectedOptionsAndChevronIconContainer {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+  width: 100%;
+  padding: var(--surface-gap) 0;
+  overflow-x: hidden;
+}
+
+.selectedOptionsContainer {
+  position: relative;
+  border: 1px solid var(--field-border);
+  border-radius: var(--radius-field);
+  width: 100%;
+  padding: 0;
+  background-color: var(--field-bg);
+}
+
+.selectedOptionsContainer.expanded {
+  overflow-y: scroll;
+  flex-wrap: wrap;
+}
+
+/* === Chips Container === */
+.noBorderContainer {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 196px;
+  padding: var(--space-sm) 0 var(--space-sm) var(--space-sm);
+  gap: var(--space-sm);
+  width: 93%;
+  overflow-y: hidden;
+  border-color: transparent;
+}
+
+.noBorderContainer.expanded {
+  overflow-y: scroll;
+}
+
+/* === Chevron Icon === */
+.chevronDownIcon {
+  opacity: 0.4;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+  position: absolute;
+  right: 0.25rem;
+  top: 51%;
+  transform: translate(-40px, -50%);
+  color: var(--custom-multi-select-gray-500, var(--color-gray-500));
+}
+
+.chevronDownIcon.open {
+  opacity: 0.7;
+  transform: rotate(180deg) translate(40px, 0.75rem);
+}
+
+/* === Option chips (selected values) === */
+.optionButton {
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+/* === Selector placeholder === */
+.selectorButton {
+  color: var(--field-text-placeholder);
+  font-size: var(--typography-small-size);
+}
+
+/* ============================================================================
+   Dropdown (Popover.Content)
+   ============================================================================ */
+
+
+.options {
+  width: 100%;
+  padding: 0;
+  background-color: var(--surface-bg);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-field);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* === Search wrapper === */
+.searchWrapper {
+  position: relative;
+  border-bottom: 1px solid var(--surface-border);
+}
+
+/* === Command input === */
+input[cmdk-input] {
+  width: 100%;
+  background-color: var(--field-bg);
+  color: var(--field-text);
+  border: none;
+  padding: var(--space-sm-plus) var(--space-xl) var(--space-sm-plus) var(--space-md);
+  font-size: var(--typography-small-size);
+}
+
+input[cmdk-input]::placeholder {
+  color: var(--field-text-placeholder);
+}
+
+/* === Reset search icon === */
+.resetSearchInputIcon {
+  position: absolute;
+  right: var(--space-md);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.5;
+  color: var(--custom-multi-select-gray-500, var(--color-gray-500));
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.resetSearchInputIcon:hover {
+  opacity: 1;
+  color: var(--custom-multi-select-tertiary-500, var(--color-tertiary-500));
+}
+
+/* === Command root / list === */
+.commandRoot {
+  position: relative;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+/* === Options group === */
+.commandGroup {
+  padding: var(--space-xs) 0;
+}
+
+/* === Individual option item === */
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm-plus) var(--space-md);
+  font-size: var(--typography-small-size);
+  cursor: pointer;
+  gap: var(--space-sm);
+}
+
+.optionLabel {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionCheck {
+  flex-shrink: 0;
+  color: var(--custom-multi-select-tertiary-500, var(--color-tertiary-500));
+}
+
+.optionSelected {
+  opacity: 0.6;
+}
+
+/* === Empty result === */
+.emptyResult {
+  text-align: left;
+  padding: var(--space-sm-plus) var(--space-md);
+  font-size: var(--typography-small-size);
+  color: var(--custom-multi-select-gray-500, var(--color-gray-500));
+}
+
+/* === Load More sentinel (infinite scroll) === */
+.loadMoreSentinel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-sm) 0;
+  min-height: 32px;
+}
+
+/* === "Create New" section === */
+.createNewContainer {
+  border-top: 1px solid var(--surface-border);
+  padding: 0;
+}
+
+.modalButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: var(--space-sm-plus) var(--space-md);
+  font-size: var(--typography-small-size);
+  color: var(--custom-multi-select-tertiary-500, var(--color-tertiary-500));
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast);
+}
+
+.modalButton:hover {
+  background: color-mix(in srgb, var(--custom-multi-select-tertiary-500, var(--color-tertiary-500)) 8%, transparent);
+}
+
+/* === View Less text (expand/collapse) === */
+.viewLessText {
+  color: var(--custom-multi-select-gray-500, var(--color-gray-500));
+  font-size: var(--typography-small-size);
+  padding: 0 var(--space-sm);
+  position: absolute;
+  bottom: 3px;
+  left: 15px;
+  border-radius: var(--radius-full);
+  background: var(--surface-bg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.viewLessText:hover {
+  color: var(--custom-multi-select-tertiary-500, var(--color-tertiary-500));
+}
+
+/* === Dialog === */
+.dialogRoot {
+  background-color: var(--modal-bg, var(--surface-bg));
+  border: 1px solid var(--modal-border, var(--surface-border));
+  border-radius: var(--radius-modal);
+  min-width: min(90vw, 680px);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dialogHeader {
+  padding: var(--space-xl) var(--space-xl) var(--space-md);
+  border-bottom: 1px solid var(--surface-border);
+  flex-shrink: 0;
+}
+
+.dialogContent {
+  overflow-y: auto;
+  flex: 1;
+  padding: 0 var(--space-md) var(--space-md);
+}
+
+/* ============================================================================
+   Dark Mode
+   ============================================================================ */
+
+/* All surfaces use semantic tokens that auto-switch in dark mode */
+
+[data-theme='dark'] .modalButton {
+  color: var(--custom-multi-select-tertiary-400, var(--color-tertiary-400));
+}
+
+[data-theme='dark'] .viewLessText {
+  color: var(--custom-multi-select-gray-400, var(--color-gray-400));
+}
+
+[data-theme='dark'] .options {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}

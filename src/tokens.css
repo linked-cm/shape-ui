@@ -1,0 +1,25 @@
+/*
+ * The few tokens the data manager still defines itself.
+ *
+ * It used to be 67. Measuring them against `@_linked/css` showed almost all were either
+ * Tailwind primitives the theme already assumes, or re-namings of tokens the theme has
+ * under better names — `--card-*` is `--surface-*`, `--input-*` is `--field-*`,
+ * `--z-tooltip` is `--layer-tooltip`, `--typography-xs-size` is `--text-xs`. Those were
+ * renamed in the components rather than shipped here. The families that were genuinely
+ * missing went into the theme instead of here: `--intent-*` and `--table-*`
+ * (linked-cm/css#11), and the named `--space-*` scale (linked-cm/css#12) that a CSS module
+ * needs because Tailwind's `--spacing()` is a compile-time function and cannot resolve in a
+ * stylesheet compiled on its own.
+ *
+ * What is left is genuinely local: pagination has no counterpart in the theme's component
+ * families. Values come from Create Now's light theme so the two do not drift on day one.
+ * Import before your own theme; anything you define afterwards wins.
+ */
+
+:root {
+  --pagination-button-border: var(--color-gray-200);
+  --pagination-button-hover-border: var(--color-tertiary-500);
+  --pagination-button-hover-text: var(--color-tertiary-500);
+  --pagination-text: var(--color-gray-500);
+  --pagination-text-bold: var(--color-gray-900);
+}
