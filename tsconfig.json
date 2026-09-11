@@ -22,7 +22,6 @@
     ]
   },
   "files": [
-    "./src/types.d.ts",
     "./src/index.ts",
     "./src/register.ts"
   ],

@@ -1,6 +1,6 @@
 {
   "name": "@_linked/shape-ui",
-  "description": "UI driven by a shape: editors, a table over any shape's instances, a form derived from its properties, a read-only view and a relation picker — plus the read and write paths through the Linked Query DSL.",
+  "description": "UI driven by a shape: editors, a table over any shape's instances, a form derived from its properties, a read-only view and a relation picker \u2014 plus the read and write paths through the Linked Query DSL.",
   "author": {
     "name": "",
     "email": "",
