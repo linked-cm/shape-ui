@@ -46,7 +46,13 @@
     "rimraf": "^5.0.7",
     "tsconfig-to-dual-package": "^1.2.0",
     "typescript": "^5.7.3",
-    "typescript-plugin-css-modules": "^5.1.0"
+    "typescript-plugin-css-modules": "^5.1.0",
+    "@_linked/css": "^0.3.0",
+    "@_linked/icons": "^1.0.0",
+    "@_linked/primitives": "^1.2.0",
+    "framer-motion": "^12.0.0",
+    "react": "^18.2",
+    "react-dom": "^18.2"
   },
   "module": "lib/esm/index.js",
   "exports": {
