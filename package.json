@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/linked-cm/ui.git"
+    "url": "git+https://github.com/linked-cm/shape-ui.git"
   },
   "version": "2.1.0",
   "type": "module",
