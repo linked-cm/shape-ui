@@ -23,8 +23,7 @@
   },
   "files": [
     "./src/types.ts",
-    "./src/index.ts",
-    "./src/register.ts"
+    "./src/index.ts"
   ],
   "include": [
     "./src/backend.ts"

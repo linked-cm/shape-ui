@@ -4,8 +4,7 @@
  * Two halves that grew separately and belong together.
  *
  * The **editors** take a shape and a property and render one control — a text field, a select,
- * a date picker. They register themselves as linked components, which is why they are imported
- * for their side effect below rather than re-exported.
+ * a date picker. Import them by path: `@_linked/shape-ui/components/TextfieldEditor`.
  *
  * The **surfaces** are what you build out of those: a table over any shape's instances, a form
  * derived from its property list, a read-only view, a relation picker, and the shape domain
@@ -16,13 +15,27 @@
  * assumption that shape-driven CRUD was a product. It is not: it renders any shape, knows
  * nothing about projects, and is worth nothing without shapes to render. The product is the
  * studio that authors them. See arch-03 §UI package layering.
+ *
+ * **No side-effect imports here, and that is a deliberate exception to the house pattern.**
+ * Most `@_linked/*` packages import `./package.js` and `./ontologies/*.js` from their entry
+ * point so the package registers itself and its ontology. This one has nothing to register:
+ * no `@linkedShape`, no `@linkedUtil`, no `@linkedComponent` anywhere in `src`. Its ontology
+ * was empty template scaffolding — one export, no terms, a namespace on a domain we no longer
+ * use — and has been deleted.
+ *
+ * Importing `./package.js` from here was not merely redundant, it was breaking: this barrel
+ * also pulls the whole component graph, and adding core's package machinery on top of that
+ * closed an import cycle that left `Shape` undefined when a runtime shape was registered —
+ * surfacing as "Class extends value undefined is not a constructor or null", thrown from
+ * inside a query, with a stack naming none of it.
+ *
+ * A package that gains a shape should import `./package.js` from that shape's module, the way
+ * `@_linked/auth` does — not from here.
  */
 
-// No side effects here. Registration — the ontology and the editors as linked components —
-// lives in `./register.js`, because the ontology module self-imports and pulling that in as a
-// side effect of importing a type breaks class initialisation elsewhere in the graph.
-//
-//   import '@_linked/shape-ui/register';   // only if you need dynamic component resolution
+// Registers this package with the linked package system. The only side effect here, and it
+// carries no import cycle.
+
 
 
 export type {
