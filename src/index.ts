@@ -17,20 +17,19 @@
  * studio that authors them. See arch-03 §UI package layering.
  *
  * `./package.js` is imported below, as in every other `@_linked/*` package, so this package
- * registers itself. It briefly had to be omitted: it triggered "Class extends value undefined
- * is not a constructor or null" from inside a query. That turned out to be a live-binding bug
- * in core's `ShapeClass` — a named import of `Shape` captured before `Shape.js` had finished —
- * and is fixed there (linked-cm/core#220), not worked around here.
+ * registers itself — the house pattern, nothing special here. It briefly had to be omitted:
+ * it triggered "Class extends value undefined is not a constructor or null" from inside a
+ * query. That was never this package's fault — it was a live-binding bug in core's
+ * `ShapeClass`, which captured `Shape` by named import before `Shape.js` had finished
+ * evaluating, so the runtime subclass extended `undefined`. Fixed in `@_linked/core` 2.18.1
+ * (linked-cm/core#220), which is why this package depends on `^2.18.1`.
  *
  * The empty ontology this package scaffolded from the template is gone: one export, no terms,
  * and a namespace on a domain we no longer use. Nothing referenced it.
  */
 
+// Registers this package with the linked package system. The only side effect in this barrel.
 import './package.js';
-
-// Registers this package with the linked package system. The only side effect here, and it
-// carries no import cycle.
-
 
 
 export type {
